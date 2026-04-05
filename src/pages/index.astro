@@ -93,6 +93,22 @@ const distribution: { region: string; markets: string[] }[] = [
 const googleMapsPlaceUrl =
 	'https://www.google.com/maps/search/?api=1&query=mitrabawang.id+Supplier+Distributor+Bawang+Merah+Godong+Grobogan';
 
+/** Hero: img1–2 potret. Cerita: img3–5 landscape. Kualitas: img6–8 potret. Semua `.jpeg`. */
+const homeImgHero = {
+	primary: '/assets/img/home/img1.jpeg',
+	secondary: '/assets/img/home/img2.jpeg',
+} as const;
+const homeStoryPhotos = [
+	{ src: '/assets/img/home/img3.jpeg', alt: 'Aktivitas dan lingkungan usaha bawang merah mitrabawang.id' },
+	{ src: '/assets/img/home/img4.jpeg', alt: 'Kegiatan mitrabawang.id bersama petani dan gudang' },
+	{ src: '/assets/img/home/img5.jpeg', alt: 'Perjalanan produk bawang merah mitrabawang.id' },
+] as const;
+const homeQualityPhotos = [
+	{ src: '/assets/img/home/img6.jpeg', alt: 'Bawang merah berkualitas — sortir mitrabawang.id' },
+	{ src: '/assets/img/home/img7.jpeg', alt: 'Produk bawang merah ikat dan bersih mitrabawang.id' },
+	{ src: '/assets/img/home/img8.jpeg', alt: 'Bawang merah siap edar dari gudang mitrabawang.id' },
+] as const;
+
 const origin = siteOrigin(Astro.site);
 const organizationRef = orgId(origin);
 const homeStructuredData = {
@@ -178,23 +194,52 @@ const homeStructuredData = {
 						<a class="home-btn home-btn--outline" href="/info-harga-bawang-merah">Harga hari ini</a>
 					</div>
 				</div>
-				<aside class="home-hero__panel" aria-label="Ringkasan">
-					<div class="home-stat">
-						<span class="home-stat__num">24/7</span>
-						<span class="home-stat__label">Jam operasional gudang</span>
+				<div class="home-hero__right">
+					<div class="home-hero__visuals">
+						<figure class="home-hero__figure home-hero__figure--a">
+							<img
+								src={homeImgHero.primary}
+								alt="Bawang merah dan aktivitas mitrabawang.id"
+								width="720"
+								height="960"
+								loading="eager"
+								decoding="async"
+							/>
+						</figure>
+						<figure class="home-hero__figure home-hero__figure--b">
+							<img
+								src={homeImgHero.secondary}
+								alt="Produk bawang merah mitrabawang.id"
+								width="720"
+								height="960"
+								loading="eager"
+								decoding="async"
+							/>
+						</figure>
 					</div>
-					<div class="home-stat">
-						<span class="home-stat__num">Bima &amp; Brebes</span>
-						<span class="home-stat__label">Varietas unggulan mitra petani</span>
-					</div>
-					<div class="home-stat">
-						<span class="home-stat__num">±6 bln</span>
-						<span class="home-stat__label">Daya simpan (askip kering)</span>
-					</div>
-					<a class="home-hero__panel-link" href="/exporter-red-onion-shallot-from-indonesia">
-						Ekspor red onion →
-					</a>
-				</aside>
+				</div>
+			</div>
+
+			<div class="home-hero__bar">
+				<div class="home-wrap">
+					<aside class="home-hero__panel" aria-label="Ringkasan">
+						<div class="home-stat">
+							<span class="home-stat__num">24/7</span>
+							<span class="home-stat__label">Jam operasional gudang</span>
+						</div>
+						<div class="home-stat">
+							<span class="home-stat__num">Bima &amp; Brebes</span>
+							<span class="home-stat__label">Varietas unggulan mitra petani</span>
+						</div>
+						<div class="home-stat">
+							<span class="home-stat__num">±6 bln</span>
+							<span class="home-stat__label">Daya simpan (askip kering)</span>
+						</div>
+						<a class="home-hero__panel-link" href="/exporter-red-onion-shallot-from-indonesia">
+							Ekspor red onion →
+						</a>
+					</aside>
+				</div>
 			</div>
 		</section>
 
@@ -208,6 +253,18 @@ const homeStructuredData = {
 							mitrabawang.id lahir dari keprihatinan kami terhadap kondisi petani bawang merah yang kerap menghadapi
 							anjloknya harga di tingkat petani.
 						</p>
+					</div>
+					<p class="home-story__photos-caption">
+						Cuplikan aktivitas, lingkungan gudang, dan perjalanan produk kami.
+					</p>
+					<div class="home-story__photos" aria-label="Foto aktivitas dan lingkungan">
+						{
+							homeStoryPhotos.map(({ src, alt }) => (
+								<figure class="home-story__photo">
+									<img src={src} alt={alt} width="1200" height="750" loading="lazy" decoding="async" />
+								</figure>
+							))
+						}
 					</div>
 					<div class="home-story__cols">
 						<div class="home-story__card">
@@ -252,6 +309,19 @@ const homeStructuredData = {
 						<span class="home-quality-varieties__pill">Brebes</span>
 					</div>
 				</header>
+
+				<p class="home-quality-photos-caption">
+					Cuplikan produk bawang merah yang kami sortir dan edarkan.
+				</p>
+				<div class="home-quality-photos" aria-label="Foto produk bawang merah">
+					{
+						homeQualityPhotos.map(({ src, alt }) => (
+							<figure class="home-quality-photo">
+								<img src={src} alt={alt} width="720" height="960" loading="lazy" decoding="async" />
+							</figure>
+						))
+					}
+				</div>
 
 				<div class="home-quality-grid">
 					<div class="home-quality-main">
@@ -565,9 +635,63 @@ const homeStructuredData = {
 
 	@media (min-width: 900px) {
 		.home-hero__inner {
-			grid-template-columns: 1.15fr 0.85fr;
-			align-items: stretch;
+			grid-template-columns: 1.08fr minmax(280px, 400px);
+			align-items: start;
 		}
+	}
+
+	.home-hero__right {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1rem, 3vw, 1.35rem);
+		min-width: 0;
+	}
+
+	.home-hero__visuals {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.7rem;
+		align-items: stretch;
+		min-width: 0;
+	}
+
+	.home-hero__figure {
+		margin: 0;
+		border-radius: var(--home-radius);
+		overflow: hidden;
+		border: 1px solid rgba(28, 25, 23, 0.08);
+		box-shadow: 0 12px 40px rgba(28, 25, 23, 0.1);
+		aspect-ratio: 3 / 4;
+		background: #e7e5e4;
+	}
+
+	.home-hero__figure--a {
+		box-shadow: 0 16px 48px rgba(159, 18, 57, 0.12);
+	}
+
+	.home-hero__figure img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	@media (min-width: 520px) and (max-width: 899px) {
+		.home-hero__visuals {
+			max-width: 28rem;
+		}
+	}
+
+	.home-hero__bar {
+		position: relative;
+		margin-top: clamp(0.5rem, 2vw, 1rem);
+		padding-top: clamp(1rem, 3vw, 1.5rem);
+		padding-bottom: clamp(1.25rem, 3.5vw, 2.25rem);
+	}
+
+	.home-hero__bar .home-hero__panel {
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	.home-eyebrow {
@@ -707,52 +831,101 @@ const homeStructuredData = {
 	.home-hero__panel {
 		background: var(--home-card);
 		border-radius: var(--home-radius-lg);
-		padding: 1.35rem 1.5rem;
+		padding: 1rem 1.15rem;
 		border: 1px solid var(--color-border);
 		box-shadow:
 			0 1px 2px rgba(28, 25, 23, 0.04),
 			0 12px 40px rgba(28, 25, 23, 0.08);
 		display: flex;
-		flex-direction: column;
-		gap: 1.1rem;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.65rem 0.35rem;
 	}
 
 	.home-stat {
 		display: flex;
 		flex-direction: column;
-		gap: 0.2rem;
-		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--color-border);
+		gap: 0.15rem;
+		flex: 1 1 0;
+		min-width: 0;
+		padding: 0.2rem 0.85rem;
+		border-bottom: none;
+		text-align: center;
 	}
 
-	.home-stat:last-of-type {
-		border-bottom: none;
-		padding-bottom: 0;
+	.home-stat:not(:first-child) {
+		border-left: 1px solid var(--color-border);
+	}
+
+	.home-stat:first-child {
+		padding-left: 0;
 	}
 
 	.home-stat__num {
-		font-size: 1.15rem;
+		font-size: clamp(0.95rem, 2.2vw, 1.12rem);
 		font-weight: 800;
 		color: var(--home-rose);
 		letter-spacing: -0.02em;
+		line-height: 1.2;
 	}
 
 	.home-stat__label {
-		font-size: 0.88rem;
+		font-size: 0.72rem;
 		color: #78716c;
-		line-height: 1.4;
+		line-height: 1.35;
 	}
 
 	.home-hero__panel-link {
-		margin-top: 0.25rem;
+		flex: 0 0 auto;
+		margin: 0;
+		padding: 0.35rem 0 0.35rem 1rem;
+		margin-left: auto;
+		border-left: 1px solid var(--color-border);
 		font-weight: 700;
-		font-size: 0.92rem;
+		font-size: 0.88rem;
 		color: var(--home-rose);
 		text-decoration: none;
+		white-space: nowrap;
+		align-self: stretch;
+		display: inline-flex;
+		align-items: center;
 	}
 
 	.home-hero__panel-link:hover {
 		text-decoration: underline;
+	}
+
+	@media (max-width: 640px) {
+		.home-hero__panel {
+			justify-content: center;
+			padding: 0.85rem 1rem;
+		}
+
+		.home-stat {
+			flex: 1 1 calc(50% - 0.5rem);
+			min-width: 7rem;
+			padding: 0.35rem 0.5rem;
+		}
+
+		.home-stat:nth-child(3) {
+			flex: 1 1 100%;
+			border-left: none;
+			border-top: 1px solid var(--color-border);
+			padding-top: 0.65rem;
+			margin-top: 0.15rem;
+		}
+
+		.home-hero__panel-link {
+			flex: 1 1 100%;
+			justify-content: center;
+			border-left: none;
+			border-top: 1px solid var(--color-border);
+			padding: 0.65rem 0 0.2rem;
+			margin-left: 0;
+			margin-top: 0.15rem;
+		}
 	}
 
 	/* Sections */
@@ -774,6 +947,50 @@ const homeStructuredData = {
 		line-height: 1.65;
 		color: #57534e;
 		margin: 0;
+	}
+
+	.home-story__photos-caption {
+		margin: 1.5rem 0 0.85rem;
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: #57534e;
+		max-width: 42rem;
+	}
+
+	.home-story__photos {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.85rem;
+		margin-bottom: 2rem;
+	}
+
+	@media (min-width: 768px) {
+		.home-story__photos {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	.home-story__photo {
+		margin: 0;
+		border-radius: var(--home-radius);
+		overflow: hidden;
+		border: 1px solid var(--color-border);
+		box-shadow: 0 6px 24px rgba(28, 25, 23, 0.07);
+		aspect-ratio: 16 / 10;
+		background: #f5f5f4;
+	}
+
+	.home-story__photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	@media (max-width: 767px) {
+		.home-story__photo {
+			aspect-ratio: 4 / 3;
+		}
 	}
 
 	.home-story__cols {
@@ -826,6 +1043,45 @@ const homeStructuredData = {
 
 	.home-story__closing strong {
 		color: var(--home-slate);
+	}
+
+	.home-quality-photos-caption {
+		margin: 0 auto 1rem;
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: #57534e;
+		max-width: 44rem;
+		text-align: center;
+	}
+
+	.home-quality-photos {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	@media (min-width: 640px) {
+		.home-quality-photos {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	.home-quality-photo {
+		margin: 0;
+		border-radius: var(--home-radius);
+		overflow: hidden;
+		border: 1px solid rgba(159, 18, 57, 0.12);
+		box-shadow: 0 8px 28px rgba(28, 25, 23, 0.08);
+		aspect-ratio: 3 / 4;
+		background: #fff;
+	}
+
+	.home-quality-photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
 	/* Kualitas — panen, kulit bawang, daun */
