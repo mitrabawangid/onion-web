@@ -1,6 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SocialIconLinks from '../components/SocialIconLinks.astro';
+import JsonLd from '../components/JsonLd.astro';
+import {
+	logoUrl,
+	orgId,
+	postalAddressBlock,
+	sameAsProfiles,
+	siteEmail,
+	siteOrigin,
+	siteTelephoneE164,
+} from '../data/schema-site';
 
 const mapEmbedSrc =
 	'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.496536404526!2d110.7514169!3d-7.0682820999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70bdbca3a0462f%3A0xe8743627fec392d1!2smitrabawang.id%20%7C%20Supplier%20%26%20Distributor%20Bawang%20Merah%20Penjualan%20Grosir%20untuk%20Agen!5e0!3m2!1sid!2skr!4v1775140423549!5m2!1sid!2skr';
@@ -82,6 +92,59 @@ const distribution: { region: string; markets: string[] }[] = [
 
 const googleMapsPlaceUrl =
 	'https://www.google.com/maps/search/?api=1&query=mitrabawang.id+Supplier+Distributor+Bawang+Merah+Godong+Grobogan';
+
+const origin = siteOrigin(Astro.site);
+const organizationRef = orgId(origin);
+const homeStructuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Organization',
+			'@id': organizationRef,
+			name: 'mitrabawang.id',
+			alternateName: 'Supplier & Distributor Bawang Merah mitrabawang.id',
+			url: `${origin}/`,
+			logo: { '@type': 'ImageObject', url: logoUrl(origin) },
+			image: logoUrl(origin),
+			description:
+				'Supplier bawang merah tangan pertama setelah petani. Harga grosir, distribusi ke seluruh Indonesia dan ekspor. Gudang Grobogan, Jawa Tengah.',
+			email: siteEmail,
+			telephone: siteTelephoneE164,
+			address: postalAddressBlock(),
+			contactPoint: [
+				{
+					'@type': 'ContactPoint',
+					telephone: siteTelephoneE164,
+					contactType: 'sales',
+					availableLanguage: ['Indonesian', 'id'],
+					areaServed: 'ID',
+				},
+			],
+			sameAs: [...sameAsProfiles],
+		},
+		{
+			'@type': 'Product',
+			'@id': `${origin}/#product-bawang-merah`,
+			name: 'Bawang Merah Grosir (mitrabawang.id)',
+			description:
+				'Bawang merah segar: varian ikat (berdaun) dan bersih untuk agen, distributor, dan grosir. Supply tangan pertama setelah petani.',
+			sku: 'BM-GROSIR',
+			brand: { '@id': organizationRef },
+			category: 'Fresh produce — red onion / shallot wholesale',
+			image: logoUrl(origin),
+			offers: {
+				'@type': 'AggregateOffer',
+				priceCurrency: 'IDR',
+				lowPrice: '22000',
+				highPrice: '35000',
+				offerCount: 3,
+				availability: 'https://schema.org/InStock',
+				url: `${origin}/info-harga-bawang-merah/`,
+				seller: { '@id': organizationRef },
+			},
+		},
+	],
+};
 ---
 
 <Layout
@@ -420,6 +483,8 @@ const googleMapsPlaceUrl =
 				</div>
 			</div>
 		</section>
+
+		<JsonLd schema={homeStructuredData} />
 	</div>
 </Layout>
 

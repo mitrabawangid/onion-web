@@ -1,6 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SocialIconLinks from '../components/SocialIconLinks.astro';
+import JsonLd from '../components/JsonLd.astro';
+import {
+	logoUrl,
+	orgId,
+	postalAddressBlock,
+	sameAsProfiles,
+	siteEmail,
+	siteOrigin,
+	siteTelephoneE164,
+	websiteId,
+} from '../data/schema-site';
 
 const mapEmbedSrc =
 	'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.496536404526!2d110.7514169!3d-7.0682820999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70bdbca3a0462f%3A0xe8743627fec392d1!2smitrabawang.id%20%7C%20Supplier%20%26%20Distributor%20Bawang%20Merah%20Penjualan%20Grosir%20untuk%20Agen!5e0!3m2!1sid!2skr!4v1775140423549!5m2!1sid!2skr';
@@ -12,6 +23,46 @@ const googleMapsPlaceUrl =
 const whatsappHref = 'https://wa.me/6281233624549';
 const whatsappDisplay = '0812-3362-4549';
 const email = 'mitrabawang.id@gmail.com';
+
+const origin = siteOrigin(Astro.site);
+const organizationRef = orgId(origin);
+const webSiteRef = websiteId(origin);
+const aboutStructuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Organization',
+			'@id': organizationRef,
+			name: 'mitrabawang.id',
+			url: `${origin}/`,
+			logo: { '@type': 'ImageObject', url: logoUrl(origin) },
+			email: siteEmail,
+			telephone: siteTelephoneE164,
+			address: postalAddressBlock(),
+			sameAs: [...sameAsProfiles],
+		},
+		{
+			'@type': 'WebSite',
+			'@id': webSiteRef,
+			url: `${origin}/`,
+			name: 'mitrabawang.id',
+			inLanguage: 'id-ID',
+			publisher: { '@id': organizationRef },
+		},
+		{
+			'@type': 'AboutPage',
+			'@id': `${origin}/about/#webpage`,
+			url: `${origin}/about/`,
+			name: 'Tentang mitrabawang.id',
+			description:
+				'mitrabawang.id adalah unit usaha perdagangan komoditas bawang merah. Alamat gudang Grobogan, kontak WhatsApp, email, dan media sosial.',
+			inLanguage: 'id-ID',
+			isPartOf: { '@id': webSiteRef },
+			mainEntity: { '@id': organizationRef },
+			about: { '@id': organizationRef },
+		},
+	],
+};
 ---
 
 <Layout
@@ -113,6 +164,8 @@ const email = 'mitrabawang.id@gmail.com';
 				</div>
 			</div>
 		</section>
+
+		<JsonLd schema={aboutStructuredData} />
 	</div>
 </Layout>
 

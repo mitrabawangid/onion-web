@@ -1,5 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import JsonLd from '../components/JsonLd.astro';
+import {
+	logoUrl,
+	orgId,
+	postalAddressBlock,
+	sameAsProfiles,
+	siteEmail,
+	siteOrigin,
+	siteTelephoneE164,
+} from '../data/schema-site';
 
 const buildDate = new Intl.DateTimeFormat('id-ID', {
 	weekday: 'long',
@@ -9,10 +19,56 @@ const buildDate = new Intl.DateTimeFormat('id-ID', {
 }).format(new Date());
 
 const priceRows = [
-	{ grade: 'Besar', berat: '1 kg', harga: 'Rp 35.000' },
-	{ grade: 'Sedang', berat: '1 kg', harga: 'Rp 28.000' },
-	{ grade: 'Kecil', berat: '1 kg', harga: 'Rp 22.000' },
+	{ grade: 'Besar', berat: '1 kg', harga: 'Rp 35.000', priceValue: '35000', sku: 'BM-BESAR-1KG' },
+	{ grade: 'Sedang', berat: '1 kg', harga: 'Rp 28.000', priceValue: '28000', sku: 'BM-SEDANG-1KG' },
+	{ grade: 'Kecil', berat: '1 kg', harga: 'Rp 22.000', priceValue: '22000', sku: 'BM-KECIL-1KG' },
 ];
+
+const origin = siteOrigin(Astro.site);
+const organizationRef = orgId(origin);
+const priceValidUntil = new Date();
+priceValidUntil.setDate(priceValidUntil.getDate() + 14);
+const priceValidUntilStr = priceValidUntil.toISOString().slice(0, 10);
+
+const priceStructuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Organization',
+			'@id': organizationRef,
+			name: 'mitrabawang.id',
+			url: `${origin}/`,
+			logo: logoUrl(origin),
+			email: siteEmail,
+			telephone: siteTelephoneE164,
+			address: postalAddressBlock(),
+			sameAs: [...sameAsProfiles],
+		},
+		{
+			'@type': 'Product',
+			'@id': `${origin}/info-harga-bawang-merah/#product`,
+			name: 'Bawang Merah per kg — mitrabawang.id',
+			description:
+				'Harga referensi bawang merah per 1 kg menurut grade (besar, sedang, kecil). Pembaruan harian sekitar pkl. 10.30 WIB.',
+			brand: { '@id': organizationRef },
+			image: logoUrl(origin),
+			hasVariant: priceRows.map(({ grade, priceValue, sku }) => ({
+				'@type': 'Product',
+				name: `Bawang Merah grade ${grade} — 1 kg`,
+				sku,
+				offers: {
+					'@type': 'Offer',
+					price: priceValue,
+					priceCurrency: 'IDR',
+					priceValidUntil: priceValidUntilStr,
+					availability: 'https://schema.org/InStock',
+					url: `${origin}/info-harga-bawang-merah/`,
+					seller: { '@id': organizationRef },
+				},
+			})),
+		},
+	],
+};
 ---
 
 <Layout
@@ -60,6 +116,8 @@ const priceRows = [
 		<p class="price-page__back">
 			<a href="/">← Kembali ke beranda</a>
 		</p>
+
+		<JsonLd schema={priceStructuredData} />
 	</div>
 </Layout>
 

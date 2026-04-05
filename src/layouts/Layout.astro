@@ -1,22 +1,36 @@
 ---
+import { SEO } from 'astro-seo';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+
+/** Kata kunci utama situs (bisa dioverride per halaman lewat prop `keywords`). */
+const siteKeywords =
+	'Bawang Merah, Agen Bawang Merah, Jual Bawang Merah, Grosir Bawang Merah, Distributor Bawang Merah, Supplier bawang merah, gudang bawang merah';
 
 interface Props {
 	title?: string;
 	description?: string;
 	/** Halaman Inggris (ekspor) gunakan lang="en" */
 	lang?: string;
+	/** URL absolut gambar Open Graph / Twitter (opsional) */
+	openGraphImage?: string;
+	/** Meta keywords (opsional); default memakai daftar kata kunci utama mitrabawang.id */
+	keywords?: string;
 }
 
 const {
 	title = 'mitrabawang.id — Supplier & Distributor Bawang Merah Grosir',
-	description = 'mitrabawang.id: supplier dan distributor bawang merah untuk agen penjualan grosir, distribusi, dan ekspor dari Indonesia.',
+	description = 'mitrabawang.id — supplier & distributor bawang merah grosir untuk agen. Jual dari gudang tangan pertama di Grobogan; distribusi nasional dan ekspor.',
 	lang = 'id',
+	openGraphImage,
+	keywords = siteKeywords,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const base = Astro.site ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, base).href;
+const ogImage = openGraphImage ?? new URL('/assets/img/emblem.png', base).href;
+const ogLocale = lang === 'en' ? 'en_US' : 'id_ID';
 ---
 
 <!doctype html>
@@ -26,15 +40,43 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).hr
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<link rel="canonical" href={canonical} />
+		<SEO
+			title={title}
+			description={description}
+			canonical={canonical}
+			openGraph={{
+				basic: {
+					title,
+					type: 'website',
+					image: ogImage,
+					url: canonical,
+				},
+				optional: {
+					description,
+					locale: ogLocale,
+					siteName: 'mitrabawang.id',
+				},
+				image: {
+					alt: 'mitrabawang.id — supplier bawang merah',
+				},
+			}}
+			twitter={{
+				card: 'summary_large_image',
+				title,
+				description,
+				image: ogImage,
+				imageAlt: 'mitrabawang.id — supplier bawang merah',
+			}}
+			extend={{
+				meta: [{ name: 'keywords', content: keywords }],
+			}}
+		/>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
 			rel="stylesheet"
 		/>
-		<title>{title}</title>
 	</head>
 	<body>
 		<SiteHeader />
