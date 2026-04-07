@@ -173,16 +173,9 @@ const homeStructuredData = {
 			<div class="home-hero__bg" aria-hidden="true"></div>
 			<div class="home-hero__inner">
 				<div class="home-hero__copy">
-					<p class="home-eyebrow">
-						<span class="home-pill">Tangan pertama</span>
-						<span class="home-pill home-pill--muted">Harga grosir</span>
-					</p>
-					<h1 id="home-hero-title" class="home-hero__title">
+					<h2 id="home-hero-title" class="home-hero__title">
 						Supplier &amp; Distributor Bawang Merah <span class="home-hero__accent">Penjualan Grosir</span>
-					</h1>
-					<p class="home-hero__lead">
-						Supplier bawang merah tangan pertama • Harga grosir
-					</p>
+					</h2>
 					<p class="home-hero__text">
 						<strong>mitrabawang.id</strong> adalah supplier bawang merah tangan pertama setelah petani. Kami menjual
 						bawang merah dengan harga grosir, melayani distribusi ke seluruh Indonesia bahkan hingga ekspor.
@@ -195,21 +188,11 @@ const homeStructuredData = {
 					</div>
 				</div>
 				<div class="home-hero__right">
-					<div class="home-hero__visuals">
+					<div class="home-hero__visuals home-hero__visuals--single">
 						<figure class="home-hero__figure home-hero__figure--a">
 							<img
-								src={homeImgHero.primary}
+								src="/assets/img/home/img8.jpeg"
 								alt="Bawang merah dan aktivitas mitrabawang.id"
-								width="720"
-								height="960"
-								loading="eager"
-								decoding="async"
-							/>
-						</figure>
-						<figure class="home-hero__figure home-hero__figure--b">
-							<img
-								src={homeImgHero.secondary}
-								alt="Produk bawang merah mitrabawang.id"
 								width="720"
 								height="960"
 								loading="eager"
@@ -407,9 +390,8 @@ const homeStructuredData = {
 		<!-- Jaringan pasar -->
 		<section class="home-section home-section--markets" aria-labelledby="markets-heading">
 			<div class="home-wrap">
-				<h2 id="markets-heading" class="home-h2">Jaringan pasar yang kami layani</h2>
 				<p class="home-markets-lead">
-					mitrabawang.id melayani pengiriman ke berbagai pasar berikut:
+					mitrabawang.id memiliki jaringan distribusi yang terintegrasi, sehingga meminimalisir risiko kebusukan selama pengiriman.
 				</p>
 				<div class="home-region-grid">
 					{
@@ -663,6 +645,16 @@ const homeStructuredData = {
 		gap: 0.7rem;
 		align-items: stretch;
 		min-width: 0;
+	}
+
+	.home-hero__visuals--single {
+		grid-template-columns: 1fr;
+	}
+
+	.home-hero__visuals--single .home-hero__figure {
+		aspect-ratio: auto;
+		max-height: 85vh; /* Prevents it from getting too tall */
+		object-fit: cover;
 	}
 
 	.home-hero__figure {
@@ -1519,7 +1511,13 @@ const homeStructuredData = {
 
 	@media (min-width: 1100px) {
 		.home-region-grid {
-			grid-template-columns: repeat(3, 1fr);
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		.home-region-grid > .home-region-card {
+			width: calc(33.333% - 0.67rem);
+			flex-shrink: 0;
 		}
 	}
 

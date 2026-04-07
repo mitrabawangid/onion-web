@@ -33,6 +33,7 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	padding-top: 65px; /* Kompensasi untuk navbar fixed */
 }
 
 /* Full lebar agar section (mis. home) bisa full-bleed background */
