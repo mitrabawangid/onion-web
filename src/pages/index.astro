@@ -155,7 +155,7 @@ const homeStructuredData = {
 				highPrice: '35000',
 				offerCount: 3,
 				availability: 'https://schema.org/InStock',
-				url: `${origin}/info-harga-bawang-merah/`,
+				url: `${origin}/harga-bawang-merah-hari-ini/`,
 				seller: { '@id': organizationRef },
 			},
 		},
@@ -184,7 +184,7 @@ const homeStructuredData = {
 						<a class="home-btn home-btn--primary" href={whatsappHref} target="_blank" rel="noopener noreferrer">
 							Chat WhatsApp
 						</a>
-						<a class="home-btn home-btn--outline" href="/info-harga-bawang-merah">Harga hari ini</a>
+						<a class="home-btn home-btn--outline" href="/harga-bawang-merah-hari-ini">Harga hari ini</a>
 					</div>
 				</div>
 				<div class="home-hero__right">
@@ -301,19 +301,13 @@ const homeStructuredData = {
 				<p class="home-quality-photos-caption">
 					Cuplikan produk bawang merah yang kami sortir dan edarkan.
 				</p>
-				<div
-					class="home-quality-photos"
-					role="region"
-					aria-roledescription="carousel"
-					aria-label="Foto produk bawang merah — geser untuk melihat lainnya"
-				>
-					{
-						homeQualityPhotos.map(({ src, alt }) => (
-							<figure class="home-quality-photo">
-								<img src={src} alt={alt} width="720" height="960" loading="lazy" decoding="async" />
-							</figure>
-						))
-					}
+				<div class="home-quality-cards">
+					<figure class="home-quality-photo-card">
+						<img src="/assets/img/home/img6.jpeg" alt="Bawang merah sortir" width="720" height="960" loading="lazy" decoding="async" />
+					</figure>
+					<figure class="home-quality-photo-card">
+						<img src="/assets/img/home/img7.jpeg" alt="Bawang merah bersih dan ikat" width="720" height="960" loading="lazy" decoding="async" />
+					</figure>
 				</div>
 
 				<div class="home-quality-grid">
@@ -346,12 +340,11 @@ const homeStructuredData = {
 						</div>
 						<div class="home-price-band">
 							<span class="home-price-band__label">Kisaran harga</span>
-							<span class="home-price-band__value">Rp 22.000 – Rp 35.000</span>
+							<span class="home-price-band__value">Rp 22.000 – Rp 35.000 / KG</span>
 							<span class="home-price-band__hint">(dapat berubah mengikuti pasar)</span>
 						</div>
-						<a class="home-quality-price-link" href="/info-harga-bawang-merah">
-							<span>Update harga terkini</span>
-							<span class="home-quality-price-link__sub">Harga Bawang Merah Hari ini</span>
+						<a class="home-quality-price-link" href="/harga-bawang-merah-hari-ini">
+							<span>Harga Bawang Merah Hari ini</span>
 						</a>
 					</div>
 				</div>
@@ -1227,6 +1220,39 @@ const homeStructuredData = {
 		border: 2px solid rgba(159, 18, 57, 0.25);
 		border-radius: 999px;
 		box-shadow: 0 2px 8px rgba(159, 18, 57, 0.06);
+	}
+
+	.home-quality-cards {
+		display: grid;
+		gap: 1.25rem;
+		grid-template-columns: repeat(2, 1fr);
+		margin-bottom: 2.5rem;
+	}
+
+	@media (min-width: 768px) {
+		.home-quality-cards {
+			gap: 2rem;
+		}
+	}
+
+	.home-quality-photo-card {
+		margin: 0;
+		border-radius: var(--home-radius-lg);
+		border: 1px solid rgba(28, 25, 23, 0.08);
+		box-shadow: 0 12px 32px rgba(28, 25, 23, 0.05);
+		background: #ffffff;
+		padding: 0.85rem;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.home-quality-photo-card img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+		border-radius: calc(var(--home-radius-lg) - 0.5rem);
+		display: block;
 	}
 
 	.home-quality-grid {
