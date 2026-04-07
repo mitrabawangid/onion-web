@@ -4,7 +4,7 @@ const pathname = Astro.url.pathname;
 const links = [
 	{ href: '/', label: 'Beranda' },
 	{ href: '/about', label: 'Tentang' },
-	{ href: '/info-harga-bawang-merah', label: 'Info Harga' },
+	{ href: '/info-harga-bawang-merah', label: 'Harga' },
 	{ href: '/exporter-red-onion-shallot-from-indonesia', label: 'Ekspor' },
 ];
 
@@ -33,7 +33,10 @@ const linkItems = links.map(({ href, label }) => ({
 					height="40"
 					decoding="async"
 				/>
-				<span class="brand-text">mitrabawang<span class="tld">.id</span></span>
+				<div class="brand-copy">
+					<span class="brand-text">mitrabawang<span class="tld">.id</span></span>
+					<span class="brand-tagline">Supplier bawang merah tangan pertama &bull; Harga grosir</span>
+				</div>
 			</a>
 
 			<nav class="nav nav-desktop" aria-label="Menu utama">
@@ -179,11 +182,14 @@ const linkItems = links.map(({ href, label }) => ({
 	}
 
 	.site-header {
-		position: sticky;
+		position: fixed;
 		top: 0;
-		background: rgba(250, 247, 242, 0.97);
+		left: 0;
+		right: 0;
+		background: rgba(250, 247, 242, 0.75);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 		border-bottom: 1px solid var(--color-border);
-		/* Hindari backdrop-filter di sini: membuat anak position:fixed terikat ke header dan drawer terpotong. */
 	}
 
 	.inner {
@@ -214,6 +220,10 @@ const linkItems = links.map(({ href, label }) => ({
 		color: var(--color-accent);
 	}
 
+	.brand:hover .tld {
+		color: var(--color-accent);
+	}
+
 	.brand-logo {
 		width: 2.35rem;
 		height: 2.35rem;
@@ -222,10 +232,29 @@ const linkItems = links.map(({ href, label }) => ({
 		display: block;
 	}
 
+	.brand-copy {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		justify-content: center;
+	}
+
 	.brand-text {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		min-width: 0;
+		line-height: 1.1;
+	}
+
+	.brand-tagline {
+		font-size: 0.65rem;
+		font-weight: 500;
+		color: var(--color-muted);
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		min-width: 0;
 	}
 
