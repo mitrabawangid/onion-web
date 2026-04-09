@@ -29,8 +29,8 @@ const qualityChecks = [
 ];
 
 const productTypes = [
-	{ title: 'Bawang Merah Ikat', sub: 'Masih berdaun', variant: 'ikat' as const },
-	{ title: 'Bawang Merah Bersih', sub: 'Tanpa daun', variant: 'bersih' as const },
+	{ title: 'Bawang Merah Ikat', sub: 'Masih berdaun', variant: 'ikat' as const, image: '/assets/img/home/img6.jpeg' },
+	{ title: 'Bawang Merah Bersih', sub: 'Tanpa daun', variant: 'bersih' as const, image: '/assets/img/home/img7.jpeg' },
 ];
 
 const distribution: { region: string; markets: string[] }[] = [
@@ -246,10 +246,6 @@ const homeStructuredData = {
 				<div class="home-story">
 					<div class="home-story__intro">
 						<h2 id="story-heading" class="home-h2" style="display:none;">Cerita Kami</h2>
-						<p class="home-story__drop">
-							mitrabawang.id lahir dari keprihatinan kami terhadap kondisi petani bawang merah yang kerap menghadapi
-							anjloknya harga di tingkat petani.
-						</p>
 					</div>
 					<p class="home-story__photos-caption">
 						Cuplikan aktivitas, lingkungan gudang, dan perjalanan produk kami.
@@ -291,20 +287,6 @@ const homeStructuredData = {
 					</div>
 				</header>
 
-				<p class="home-quality-photos-caption">
-					Cuplikan produk bawang merah yang kami sortir dan edarkan.
-				</p>
-				<div class="home-quality-cards">
-					<figure class="home-quality-photo-card">
-						<img src="/assets/img/home/img6.jpeg" alt="Bawang merah sortir" width="720" height="960" loading="lazy" decoding="async" />
-						<figcaption class="home-quality-photo-caption">Bawang merah ikat</figcaption>
-					</figure>
-					<figure class="home-quality-photo-card">
-						<img src="/assets/img/home/img7.jpeg" alt="Bawang merah bersih dan ikat" width="720" height="960" loading="lazy" decoding="async" />
-						<figcaption class="home-quality-photo-caption">Bawang merah bersih</figcaption>
-					</figure>
-				</div>
-
 				<div class="home-quality-grid">
 					<div class="home-quality-main">
 						<p class="home-quality-kicker">Kami tidak asal jual</p>
@@ -325,8 +307,9 @@ const homeStructuredData = {
 						<p class="home-quality-kicker">Dua jenis untuk kebutuhan pasar</p>
 						<div class="home-product-cards">
 							{
-								productTypes.map(({ title, sub, variant }) => (
+								productTypes.map(({ title, sub, variant, image }) => (
 									<div class:list={['home-product-card', `home-product-card--${variant}`]}>
+										<img src={image} alt={title} width="720" height="960" loading="lazy" decoding="async" class="home-product-card__img" />
 										<span class="home-product-card__n">{title}</span>
 										<span class="home-product-card__sub">{sub}</span>
 									</div>
@@ -1279,8 +1262,16 @@ const homeStructuredData = {
 
 	@media (min-width: 900px) {
 		.home-quality-grid {
+			grid-template-columns: 1fr;
+		}
+		.home-quality-main {
+			order: 2;
+		}
+		.home-quality-products {
+			order: 1;
+		}
+		.home-product-cards {
 			grid-template-columns: 1fr 1fr;
-			align-items: stretch;
 		}
 	}
 
@@ -1395,6 +1386,16 @@ const homeStructuredData = {
 		width: 4px;
 		background: linear-gradient(180deg, #7f1d1d, #be123c);
 		border-radius: 4px 0 0 4px;
+	}
+
+	.home-product-card__img {
+		width: 100%;
+		height: auto;
+		border-radius: calc(14px - 0.5rem);
+		margin-bottom: 0.5rem;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		display: block;
 	}
 
 	.home-product-card__n {
