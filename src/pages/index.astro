@@ -245,7 +245,7 @@ const homeStructuredData = {
 			<div class="home-wrap">
 				<div class="home-story">
 					<div class="home-story__intro">
-						<h2 id="story-heading" class="home-h2">Dari hati ke petani, ke meja konsumen</h2>
+						<h2 id="story-heading" class="home-h2" style="display:none;">Cerita Kami</h2>
 						<p class="home-story__drop">
 							mitrabawang.id lahir dari keprihatinan kami terhadap kondisi petani bawang merah yang kerap menghadapi
 							anjloknya harga di tingkat petani.
@@ -297,9 +297,11 @@ const homeStructuredData = {
 				<div class="home-quality-cards">
 					<figure class="home-quality-photo-card">
 						<img src="/assets/img/home/img6.jpeg" alt="Bawang merah sortir" width="720" height="960" loading="lazy" decoding="async" />
+						<figcaption class="home-quality-photo-caption">Bawang merah ikat</figcaption>
 					</figure>
 					<figure class="home-quality-photo-card">
 						<img src="/assets/img/home/img7.jpeg" alt="Bawang merah bersih dan ikat" width="720" height="960" loading="lazy" decoding="async" />
+						<figcaption class="home-quality-photo-caption">Bawang merah bersih</figcaption>
 					</figure>
 				</div>
 
@@ -1256,10 +1258,18 @@ const homeStructuredData = {
 	.home-quality-photo-card img {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 3 / 4;
+		aspect-ratio: 1 / 1;
 		object-fit: cover;
 		border-radius: calc(var(--home-radius-lg) - 0.5rem);
 		display: block;
+	}
+
+	.home-quality-photo-caption {
+		text-align: center;
+		font-weight: 700;
+		font-size: 0.95rem;
+		color: #44403c;
+		margin-top: 0.75rem;
 	}
 
 	.home-quality-grid {
